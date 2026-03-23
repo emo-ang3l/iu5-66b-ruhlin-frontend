@@ -1,0 +1,113 @@
+/* header.css */
+:root {
+  --bg-dark: #000000;
+  --bg-card: #1C1C1C;
+  --bg-input: #212121;
+  --text-primary: #ffffff;
+  --text-secondary: #aaaaaa;
+  --accent: #ff6200;        /* оранжевый */
+  --border: rgba(255, 255, 255, 0.18);
+  --border-focus: rgba(255, 98, 0, 0.5);
+  --radius: 14px;
+  --radius-sm: 10px;
+  --gap: 16px;
+  --padding-base: 20px;
+}
+
+.Main {
+  background-color: var(--bg-dark);
+  width: 100%;
+}
+
+.components {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 16px var(--padding-base);
+  min-height: 64px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text-primary);
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.logo-image {
+  width: 36px;
+  height: 36px;
+  filter: brightness(0) invert(1);
+}
+
+.logo-text {
+  letter-spacing: -0.5px;
+}
+
+.logo-image-lupa {
+  width: 20px;
+  height: 20px;
+  filter: brightness(0) invert(0.4);
+  margin-right: 7px;
+}
+
+.connect {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.connect-text-container {
+  display: flex;
+  align-items: center;
+  background: var(--bg-input);
+  border-radius: var(--radius);
+  padding: 8px 14px;
+  min-height: 38px;
+}
+
+.connect-text {
+  background: transparent;
+  border: none;
+  color: var(--text-primary);
+  font-size: 1rem;
+  font-weight: 500;
+  outline: none;
+  flex: 1;
+}
+
+.connect-text::placeholder {
+  color: var(--text-secondary);
+}
+
+.connect-button {
+  background: var(--accent);
+  color: white;
+  font-weight: 600;
+  border: none;
+  border-radius: var(--radius);
+  padding: 10px 20px;
+  cursor: pointer;
+  min-height: 52px;
+  transition: background 0.2s;
+}
+
+.connect-button:hover {
+  background: #ff7a1f;
+}
+
+.about {
+  color: var(--text-primary);
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.about:hover {
+  color: var(--accent);
+}
