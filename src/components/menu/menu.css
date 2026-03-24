@@ -6,7 +6,8 @@
   gap: 24px;
   padding: 24px;
   min-width: 1400px;
-  min-height: 620px;
+  height: 100%;
+  min-height: 0;
   margin: 0 auto;
 }
 
@@ -17,10 +18,11 @@
   border-radius: var(--radius);
   padding: var(--padding-base);
   color: var(--text-primary);
-  min-height: 420px;
+  min-height: 0; /* важно для flex-детей с overflow */
   display: flex;
   flex-direction: column;
   gap: 16px;
+  overflow: hidden; /* чтобы прокрутка была только в окне чата */
 }
 
 h3 {
@@ -76,6 +78,9 @@ p {
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 
+
+
+
 .input-text:focus,
 .input-text-send:focus {
   border-color: var(--border-focus);
@@ -97,25 +102,78 @@ p {
   margin-top: auto;
 }
 
+.wrapper{
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+a{
+  display: block;
+  width: 200px;
+  height: 40px;
+  line-height: 40px;
+  font-size: 18px;
+  font-family: sans-serif;
+  text-decoration: none;
+  color: #333;
+  border: 2px solid #333;
+  letter-spacing: 2px;
+  text-align: center;
+  position: relative;
+  transition: all .35s;
+}
+
+a span{
+  position: relative;
+  z-index: 2;
+}
+
+a:after{
+  position: absolute;
+  content: "";
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 100%;
+  background: #ff003b;
+  transition: all .35s;
+}
+
+a:hover{
+  color: #fff;
+}
+
+a:hover:after{
+  width: 100%;
+}
+
 .menu-item-send-button {
-  background: var(--accent);
-  color: white;
-  border: none;
+  --color: transparent;          /* обычный цвет */
+  --hover: red; 
+  border: 1px solid var(--accent);
+  background: red;
+  color: red;
+  border-radius: red;
+  background: linear-gradient(to right, var(--hover) 50%, var(--color) 50%) right / 200% 100%;
+  color: red;
   border-radius: var(--radius-sm);
   width: 48px;
   height: 48px;
   font-size: 1.2rem;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: background-position 0.1s ease;
 }
 
 .menu-item-send-button:hover {
-  background: #ff7a1f;
+  background-position: left;
+  color: white;
 }
 
 .menu-item-start {
-  background: var(--accent);
-  color: white;
+  background: white;
+  color: rgb(0, 0, 0);
   font-weight: 600;
   border: none;
   border-radius: var(--radius);
@@ -126,7 +184,8 @@ p {
 }
 
 .menu-item-start:hover {
-  background: #ff7a1f;
+  background: red;
+  color: rgb(255, 255, 255);
 }
 
 .menu-item-stop {
@@ -147,9 +206,16 @@ p {
   background: #0f0f0f;
   border-radius: var(--radius-sm);
   flex: 1;
+  min-height: 0;
   min-height: 280px;
+  
   padding: 16px;
   overflow-y: auto;
+}
+
+.menu-item-empty-chat {
+  color: var(--text-secondary);
+  margin: 0;
 }
 
 /* Мелкие улучшения */

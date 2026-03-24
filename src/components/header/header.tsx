@@ -1,31 +1,40 @@
-import React from "react";
 import './header.css';
 import logo from '../../assets/87413.png';
-import lupa from '../../assets/lupa.png';
+import { useUser } from '../../hooks/useUser';
 
-const Header = () => {
+type HeaderProps = {
+  onLogout: () => void;
+};
+
+const Header = ({ onLogout }: HeaderProps) => {
+  const { login } = useUser();
+  const userName = login || 'User';
+  const avatarLetter = userName.trim().charAt(0).toUpperCase();
+
   return (
     <header>
       <div className="Main">
         <div className="components">
           <div className="logo">
             <img src={logo} alt="dronForward logo" className="logo-image" />
-            <span className="logo-text">dronForward</span>
+            <span className="logo-text">
+              <span className="logo-text-drone">Drone</span>
+              <span className="logo-text-forward">Forward</span>
+            </span>
           </div>
 
-          <div className="connect">
-            <div className="connect-text-container">
-              <img src={lupa} alt="Search icon" className="logo-image-lupa" />
-              <input
-                type="text"
-                className="connect-text"
-                placeholder="Имя пользователя"
-              />
+          <div className="header-user-controls">
+            <div className="header-user-card">
+              <div className="header-user-avatar" aria-hidden="true">
+                {avatarLetter}
+              </div>
+              <div className="header-user-name">{userName}</div>
             </div>
-            <button className="connect-button">Подключить</button>
-          </div>
 
-          <div className="about">About</div>
+            <button type="button" className="logout-button" onClick={onLogout}>
+              Выход
+            </button>
+          </div>
         </div>
       </div>
     </header>

@@ -1,7 +1,64 @@
-import React from 'react';
 import './menu.css';
+import {
+  useEffect,
+  useState,
+  useRef,
+  type ChangeEvent,
+  type Dispatch,
+  type KeyboardEvent,
+  type SetStateAction,
+} from 'react';
+import { useUser } from '../../hooks/useUser';
+import type { Message } from '../../consts';
+import { MessageCard } from '../messageCard/messageCard';
+import '../messageCard/messageCard.css';
 
-const Menu = () => {
+type MenuProps = {
+  ws: WebSocket | undefined;
+  messageArray: Message[];
+  setMessageArray: Dispatch<SetStateAction<Message[]>>;
+};
+
+const Menu = ({ ws, messageArray, setMessageArray }: MenuProps) => {
+  const { login } = useUser();
+  const [outgoingMessage, setOutgoingMessage] = useState('');
+  const chatScrollRef = useRef<HTMLDivElement | null>(null);
+
+  // при добавлении нового сообщения прокручиваем чат к самому низу
+  useEffect(() => {
+    const el = chatScrollRef.current;
+    if (!el) return;
+    el.scrollTop = el.scrollHeight;
+  }, [messageArray.length]);
+
+  const handleChangeMessage = (event: ChangeEvent<HTMLInputElement>) => {
+    setOutgoingMessage(event.target.value);
+  };
+
+  const sendMessage = () => {
+    const trimmedMessage = outgoingMessage.trim();
+
+    if (!trimmedMessage || !ws || ws.readyState !== WebSocket.OPEN || !login) {
+      return;
+    }
+
+    const message: Message = {
+      username: login,
+      data: trimmedMessage,
+      send_time: new Date().toISOString(),
+    };
+
+    ws.send(JSON.stringify(message));
+    setMessageArray((current) => [...current, message]);
+    setOutgoingMessage('');
+  };
+
+  const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      sendMessage();
+    }
+  };
+
   return (
     <div className="menu">
       <div className="menu-item-area">
@@ -40,15 +97,28 @@ const Menu = () => {
         <p className="menu-item-status-3">
           Каждое сообщение: position(lat, lon), height, memory_left
         </p>
-        <div className="menu-item-status-chat"></div>
+        <div className="menu-item-status-chat" ref={chatScrollRef}>
+          {messageArray.length > 0 ? (
+            messageArray.map((msg, index) => (
+              <MessageCard key={`${msg.username ?? 'user'}-${index}`} msg={msg} />
+            ))
+          ) : (
+            <p className="menu-item-empty-chat">Пока нет сообщений</p>
+          )}
+        </div>
 
         <div className="menu-item-send">
           <input
             className="input-text-send"
             type="text"
             placeholder="Введите сообщение"
+            value={outgoingMessage}
+            onChange={handleChangeMessage}
+            onKeyDown={handleKeyDown}
           />
-          <button className="menu-item-send-button">→</button>
+          <button type="button" className="menu-item-send-button" onClick={sendMessage}>
+            →
+          </button>
         </div>
       </div>
 

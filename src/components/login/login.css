@@ -1,0 +1,51 @@
+.login {
+    height: 100vh;
+    overflow: hidden;
+    background-color: #000000;
+    display: flex;
+    flex-direction: column;
+    padding: 100px;
+    align-items: center;
+    
+}
+
+.logo {
+    transform: translateX(15px);
+    padding-bottom: 12px;
+}
+
+
+
+.button:hover {
+    color:white;
+    background-color: red;
+}
+
+.logo-image:hover {
+    color:red
+}
+
+.login--card {
+    padding: 5px;
+    align-items: center;
+}
+
+.login--input {
+    color: black;
+}
+
+.button {
+    font-weight: 600;
+    border: none;
+    min-width: 156px;  
+    border-radius: 5px;
+    background-color: white;
+}
+
+.login--header {
+  color: white;
+  font-family: 'Arial', sans-serif;
+  font-size: 2em;
+  text-align: center;
+  font-weight: bold;
+}
