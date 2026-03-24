@@ -40,7 +40,8 @@ export const Login: FC<LoginProps> = () => {
               <span className="logo-text-forward">Forward</span>
             </span>
           </div>
-            
+          
+          
           <input
             type="text"
             className="login--input"
