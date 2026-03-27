@@ -65,8 +65,7 @@ const Menu = ({ ws, messageArray, setMessageArray }: MenuProps) => {
         <div className="menu-item-area-0">
           <h3 className="menu-item-area-1">Область съёмки</h3>
           <p className="menu-item-area-2">Задайте два угла:</p>
-          <p className="menu-item-area-3">координаты пересекутся</p>
-          <p className="menu-item-area-4">прямоугольником.</p>
+          <p className="menu-item-area-3">координаты пересекутся прямоугольником</p>
         </div>
 
         <div className="menu-item-input">
@@ -124,11 +123,23 @@ const Menu = ({ ws, messageArray, setMessageArray }: MenuProps) => {
 
       <div className="menu-item-status">
         <h3 className="menu-item-status-2">Статус миссии</h3>
-        <p className="menu-item-status-3">В полёте / На земле / Возврат...</p>
-        <p className="menu-item-status-3">Высота: 100 м</p>
-        <div className="menu-item-status-3 status-memory">
+        <p className="menu-item-status-2">
+          <button type="button" className="status-1">
+            В полете
+          </button> 
+          <button type="button" className="status-2">
+            На земле
+          </button> 
+          <button type="button" className="status-3">
+            Возврат
+          </button> </p>
+        <div className="menu-item-status-2 status-memory">
+          <span>Высота:</span>
+          <button className='span-2'>12131232312321 м</button>
+        </div>
+        <div className="menu-item-status-2 status-memory">
           <span>Осталось памяти:</span>
-          <span>50%</span>
+          <button className='span-2'>100%</button>
         </div>
       </div>
     </div>

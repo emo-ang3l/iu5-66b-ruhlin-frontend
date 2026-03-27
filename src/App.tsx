@@ -10,6 +10,9 @@ function App() {
   const { login, resetUser } = useUser();
   const [ws, setWs] = useState<WebSocket | undefined>();
   const [messageArray, setMessageArray] = useState<Message[]>([]);
+  
+
+  
 
   const createWebSocket = useCallback((url: string): WebSocket => {
     const socket = new WebSocket(url);
@@ -47,6 +50,8 @@ function App() {
       setMessageArray([]);
       return;
     }
+
+    
 
     const nextWs = createWebSocket(
       `ws://${hostname}:8001/?username=${encodeURIComponent(login)}`,

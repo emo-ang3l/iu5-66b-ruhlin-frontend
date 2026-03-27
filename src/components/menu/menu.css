@@ -2,27 +2,84 @@
 .menu {
   background: var(--bg-dark);
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
-  gap: 24px;
-  padding: 24px;
+  grid-template-columns: minmax(290px, 1fr)   /* левый блок — Область съёмки */
+                         2fr                  /* средний блок — Логи (в 2 раза шире) */
+                         minmax(310px, 1fr);  
   min-width: 1400px;
   height: 100%;
   min-height: 0;
   margin: 0 auto;
+  
+}
+
+.menu-item-status-2 {
+  display: flex;
+  gap:12px;
+}
+
+.status-1 {
+  color:#ffffff;
+  background-color: transparent;
+  border: 0.7px solid #777777b9;
+  border-radius: 6px;
+}
+.status-2 {
+  color:#ff6262;
+  background-color: #780101ba;
+  border: 1px transparent;
+  border-radius: 6px;
+}
+
+.span-2{
+  color:#ff6262;
+  background-color: #780101ba;
+  border: 1px transparent;
+  border-radius: 6px;
+
+}
+
+.status-3 {
+  color:#ffffff;
+  background-color: transparent;
+  border: 0.7px solid #777777b9;
+  border-radius: 6px;
+}
+
+.status-1:hover {
+  transform: translateY(-2px);
+}
+.status-2:hover {
+  transform: translateY(-2px);
+}
+.status-3:hover {
+  transform: translateY(-2px);
+}
+
+.menu-item-area-0 {
+  border-bottom: 1px solid #444;
+  padding-bottom: 12px;
+}
+
+.menu-item-status-3{
+  padding-bottom: 15px;
 }
 
 .menu-item-area,
 .menu-item-logs,
 .menu-item-status {
-  background: var(--bg-card);
-  border-radius: var(--radius);
   padding: var(--padding-base);
+  
   color: var(--text-primary);
   min-height: 0; /* важно для flex-детей с overflow */
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  border-top: 1px solid #444;
+  gap: 9px;
   overflow: hidden; /* чтобы прокрутка была только в окне чата */
+}
+.menu-item-logs {
+  border-left: 1px solid #444;
+  border-right: 1px solid #444;
 }
 
 h3 {
@@ -50,11 +107,10 @@ p {
 }
 
 .input-label {
-  background-color: transparent;
+  background-color: black;
   position: absolute;
   top: -9px;
-  left: 12px;
-  background: #1C1C1C;
+  left: 17px;
   color: var(--text-secondary);
   font-size: 0.82rem;
   padding: 0 6px;
@@ -68,7 +124,8 @@ p {
   background: #212121;
   background-color: transparent;
   border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
+  border-radius: 15px;
+  top: 15px;
   color: var(--text-primary);
   font-size: 1rem;
   padding: 14px 16px;
@@ -151,14 +208,14 @@ a:hover:after{
 
 .menu-item-send-button {
   --color: transparent;          /* обычный цвет */
-  --hover: red; 
-  border: 1px solid var(--accent);
-  background: red;
-  color: red;
-  border-radius: red;
+  --hover: #ff6262; 
+  border: 1px solid #ff6262;
+  background: #ff6262;
+  color: #ff6262;
+  border-radius: #ff6262;
   background: linear-gradient(to right, var(--hover) 50%, var(--color) 50%) right / 200% 100%;
-  color: red;
-  border-radius: var(--radius-sm);
+  color: #ff6262;
+  border-radius: 15px;
   width: 48px;
   height: 48px;
   font-size: 1.2rem;
@@ -175,8 +232,9 @@ a:hover:after{
   background: white;
   color: rgb(0, 0, 0);
   font-weight: 600;
+  min-height: 48px;
   border: none;
-  border-radius: var(--radius);
+  border-radius: 15px;
   padding: 14px;
   cursor: pointer;
   margin-top: auto;
@@ -184,16 +242,18 @@ a:hover:after{
 }
 
 .menu-item-start:hover {
-  background: red;
-  color: rgb(255, 255, 255);
+  background: #780101ba;
+  color: #ff6262;
 }
 
 .menu-item-stop {
   background: #444;
   color: white;
   font-weight: 500;
+  min-height: 48px;
+
   border: none;
-  border-radius: var(--radius);
+  border-radius: 15px;
   padding: 12px;
   cursor: pointer;
 }
@@ -203,8 +263,7 @@ a:hover:after{
 }
 
 .menu-item-status-chat {
-  background: #0f0f0f;
-  border-radius: var(--radius-sm);
+  border-top: 1px solid #444;
   flex: 1;
   min-height: 0;
   min-height: 280px;
