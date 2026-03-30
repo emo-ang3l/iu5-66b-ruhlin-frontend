@@ -31,7 +31,7 @@ const Menu = ({ ws, messageArray, setMessageArray }: MenuProps) => {
     el.scrollTop = el.scrollHeight;
   }, [messageArray.length]);
 
-  const handleChangeMessage = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleChangeMessage = (event: ChangeEvent<HTMLTextAreaElement>) => {
     setOutgoingMessage(event.target.value);
   };
 
@@ -53,8 +53,9 @@ const Menu = ({ ws, messageArray, setMessageArray }: MenuProps) => {
     setOutgoingMessage('');
   };
 
-  const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') {
+  const handleKeyDown = (event: KeyboardEvent<HTMLTextAreaElement>) => {
+    if (event.key === 'Enter' && !event.shiftKey) {
+      event.preventDefault();
       sendMessage();
     }
   };
@@ -107,13 +108,14 @@ const Menu = ({ ws, messageArray, setMessageArray }: MenuProps) => {
         </div>
 
         <div className="menu-item-send">
-          <input
+          <textarea
             className="input-text-send"
-            type="text"
-            placeholder="Введите сообщение"
+            placeholder="Введите сообщение (Shift+Enter — новая строка)"
             value={outgoingMessage}
             onChange={handleChangeMessage}
             onKeyDown={handleKeyDown}
+            rows={2}
+            aria-label="Текст сообщения"
           />
           <button type="button" className="menu-item-send-button" onClick={sendMessage}>
             →

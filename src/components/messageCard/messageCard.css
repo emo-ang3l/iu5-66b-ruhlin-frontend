@@ -12,10 +12,11 @@
 }
 
 .msg {
-  max-width: 60%;
+  max-width: min(100%, 60vw);
   padding: 1em;
   display: flex;
   flex-direction: column;
+  min-width: 0;
 }
 
 .msg--own--reverse {
@@ -29,6 +30,11 @@
 
 .msg--alien--reverse {
   align-items: end;
+  background-color: rgba(169, 169, 169, 0.08);
+  border-radius: 12px;
+  border: 1px solid rgba(143, 143, 143, 0.3);
+  padding: 12px;
+  margin: 12px;
 }
 
 
@@ -36,13 +42,20 @@
   display: flex;
   width: 100%;
   margin-bottom: 0.5em;
+  flex-wrap: wrap;
+  overflow-wrap: anywhere;
 }
 
 .msg--text {
-  width: fit-content;
+  width: 100%;
+  max-width: 100%;
   border-radius: 0.5em;
-  display: flex;
+  display: block;
   justify-content: start;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  hyphens: auto;
 }
 
 .msg--bg--own {

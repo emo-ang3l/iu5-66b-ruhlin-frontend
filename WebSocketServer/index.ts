@@ -1,6 +1,10 @@
 import express from 'express';
 import axios from 'axios';
+import fs from 'fs';
 import http from 'http';
+import path from 'path';
+import swaggerUi from 'swagger-ui-express';
+import { parse as parseYaml } from 'yaml';
 import ws, { type WebSocket } from 'ws';
 import type { IncomingMessage } from 'http';
 import type { RawData } from 'ws';
@@ -28,6 +32,15 @@ const server = http.createServer(app) // создание HTTP-сервера
 
 // Используйте express.json() для парсинга JSON тела запроса
 app.use(express.json())
+
+const openapiPath = path.join(__dirname, 'openapi.yaml')
+const openapiSpec = parseYaml(fs.readFileSync(openapiPath, 'utf8')) as Record<string, unknown>
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openapiSpec))
+
+app.get('/openapi.yaml', (_req, res) => {
+  res.type('application/yaml').send(fs.readFileSync(openapiPath, 'utf8'))
+})
 
 app.post('/receive', (req, res) => {
   const message = req.body as Message

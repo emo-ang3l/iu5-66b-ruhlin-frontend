@@ -1,0 +1,133 @@
+openapi: 3.0.3
+info:
+  title: Прикладной уровень — телеметрия вариант 6 (квадрокоптер)
+  description: |
+    REST-часть сервиса прикладного уровня: приём сообщений от транспортного уровня (`POST /receive`)
+    и рассылка подключённым клиентам по WebSocket.
+
+    ## WebSocket (не REST)
+
+    Подключение: `ws://{host}:{port}/?username={имя}`
+
+    - После подключения клиент отправляет JSON-телом в бинарном кадре WebSocket (текстовый фрейм UTF-8).
+    - Формат тела — объект **AppliedMessage** (см. схему ниже): обязательны согласованные с командой поля;
+      для варианта 6 дополнительно могут передаваться поля области съёмки и телеметрии.
+
+    Исходящий поток с сервера — те же JSON-объекты в текстовых кадрах WebSocket.
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8001
+    description: Локальная разработка (сервер WebSocket + Express)
+
+tags:
+  - name: Receive
+    description: Приём сообщений от транспортного уровня
+  - name: WebSocket
+    description: Реальное время — чат и телеметрия (см. описание в info)
+
+paths:
+  /receive:
+    post:
+      tags:
+        - Receive
+      summary: Receive — доставка сообщения от транспортного уровня в чат
+      description: |
+        Транспортный уровень вызывает этот метод, когда собрано итоговое сообщение для пользователя.
+        Сервер рассылает payload всем подключённым WebSocket-клиентам, кроме отправителя
+        (логика соответствует текущей реализации сервера).
+      operationId: receiveMessage
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AppliedMessage'
+            examples:
+              telemetry:
+                summary: Телеметрия (вариант 6)
+                value:
+                  username: operator1
+                  send_time: "2026-03-30T12:00:00.000Z"
+                  latitude: 55.751244
+                  longitude: 37.618423
+                  height_m: 120.5
+                  memory_left_percent: 78
+              textChat:
+                summary: Текстовое сообщение
+                value:
+                  username: operator1
+                  send_time: "2026-03-30T12:00:00.000Z"
+                  data: "Сообщение в чат"
+              error:
+                summary: Признак ошибки на транспортном уровне
+                value:
+                  username: operator1
+                  send_time: "2026-03-30T12:00:00.000Z"
+                  error: "Сегменты сообщения не получены в срок"
+      responses:
+        '200':
+          description: Сообщение принято и поставлено в рассылку клиентам
+        '400':
+          description: Некорректное тело (например, нет `username`)
+
+components:
+  schemas:
+    AppliedMessage:
+      type: object
+      description: |
+        Универсальное тело сообщения прикладного уровня. Поля варианта 6 (область съёмки, телеметрия)
+        передаются в JSON через все уровни системы — имена согласуйте с транспортным и агентным уровнями.
+      required:
+        - username
+      properties:
+        id:
+          type: integer
+          description: Опциональный числовой идентификатор записи
+        username:
+          type: string
+          description: Имя пользователя / отправителя
+        send_time:
+          type: string
+          format: date-time
+          description: Время отправки (ISO 8601)
+        data:
+          type: string
+          description: Текстовая полезная нагрузка (чат, подпись к телеметрии)
+        error:
+          type: string
+          description: При непустом значении клиент показывает ошибку вместо текста/файла
+        lat1:
+          type: number
+          format: double
+          description: "[Вариант 6] Южная широта угла 1 области съёмки"
+        lon1:
+          type: number
+          format: double
+          description: "[Вариант 6] Западная долгота угла 1 области съёмки"
+        lat2:
+          type: number
+          format: double
+          description: "[Вариант 6] Южная широта угла 2 области съёмки"
+        lon2:
+          type: number
+          format: double
+          description: "[Вариант 6] Западная долгота угла 2 области съёмки"
+        latitude:
+          type: number
+          format: double
+          description: "[Вариант 6] Текущая широта (телеметрия)"
+        longitude:
+          type: number
+          format: double
+          description: "[Вариант 6] Текущая долгота (телеметрия)"
+        height_m:
+          type: number
+          format: double
+          description: "[Вариант 6] Высота, м"
+        memory_left_percent:
+          type: number
+          format: float
+          minimum: 0
+          maximum: 100
+          description: "[Вариант 6] Остаток памяти для съёмки, %"
