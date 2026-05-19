@@ -27,10 +27,9 @@ type Users = Record<string, Array<{
   ws: WebSocket
 }>>
 
-const app = express() // создание экземпляра приложения express
-const server = http.createServer(app) // создание HTTP-сервера
+const app = express() 
+const server = http.createServer(app) 
 
-// Используйте express.json() для парсинга JSON тела запроса
 app.use(express.json())
 
 const openapiPath = path.join(__dirname, 'openapi.yaml')

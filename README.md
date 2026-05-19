@@ -1,73 +1,40 @@
-# React + TypeScript + Vite
+# IU5-66B — Прикладной уровень (Frontend + WebSocketServer)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+В репозитории две ключевые части:
 
-Currently, two official plugins are available:
+- **Frontend**: React + TypeScript + Vite (`/src`)
+- **WebSocketServer**: Express + ws (`/WebSocketServer`)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Документация (как это работает)
 
-## React Compiler
+Главный файл с объяснениями “что без чего” и как устроены потоки данных:
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- `METHODOLOGY_WEBSOCKET_APPLIED_LEVEL.md`
 
-## Expanding the ESLint configuration
+Контракт/Swagger для прикладного сервера:
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- `WebSocketServer/openapi.yaml`
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Быстрый старт (локально)
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### Frontend
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### WebSocketServer
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+cd WebSocketServer
+npm install
 ```
+
+Дальше запустите сервер так, чтобы он слушал `http://localhost:8001` (подробности и проверки — в `METHODOLOGY_WEBSOCKET_APPLIED_LEVEL.md`).
+
+## Проверка API
+
+- Swagger UI: `http://localhost:8001/api-docs`
+- OpenAPI YAML: `http://localhost:8001/openapi.yaml`
+- REST ручка: `POST http://localhost:8001/receive`

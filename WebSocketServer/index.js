@@ -43,7 +43,6 @@ app.post('/receive', (req, res) => {
     sendMessageToOtherUsers(message.username, message);
     res.sendStatus(200);
 });
-// запуск сервера приложения
 server.listen(port, hostname, () => {
     console.log(`Server started at http://${hostname}:${port}`);
 });
